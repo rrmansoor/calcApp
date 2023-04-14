@@ -6,12 +6,11 @@ function Calculator() {
     const [val1, setVal1] = useState(0); //first variable for first operand is set to 0
     const [val2, setVal2] = useState(""); //second variable for second operand is an empty string
     const [operation, setOperation] = useState(null);
-    const [result, setResult] = useState("0"); //third value is the result and is set to 0
 
     useEffect(() => { }, [val1, val2, operation]); //setting the useEffect so that it triggers when either of the three valyes triggers
 
 
-    //make 
+    //like the calculate function, but just setting up the values and not touching them until later
     const operationsCalc = {
         "+": (firstValue, secondValue) => firstValue + secondValue,
         "-": (firstValue, secondValue) => firstValue - secondValue,
@@ -27,7 +26,7 @@ function Calculator() {
     };
 
     const handleInput = (digit) => {
-        setVal1(val1 === "0" ? String(digit) : val1 + digit);
+        setVal2(val2 === "0" ? String(digit) : val2 + digit); //this is just handling the input. doesn't change much from wthe html+js version
     }
 
     //this will do the actual calculations
@@ -49,11 +48,12 @@ function Calculator() {
 
     };
 
+    //do the actual operations when the values are inputted
     const handleOperator = (value) => {
         if (Number.isInt(value)) {
             handleInput(parseInt(value, 10)); //converts the string to a number
         } else if (value in operationsCalc) {
-            if (op === null) {
+            if (op === null) { //move val2 to val1 if nothing's there
                 setOperation(value);
                 setVal1(val2);
                 setVal2("");
@@ -61,7 +61,7 @@ function Calculator() {
             if (op) {
                 setOp(value);
             }
-            if (val1 && op && val2) {
+            if (val1 && op && val2) { //do the operations
                 handleCalc();
             }
             else if (value === ".") {
@@ -74,21 +74,21 @@ function Calculator() {
     }
 
     return (
-        //the keypad
+        //return the keypad
         <div className="calc">
             <div className="result">{result}</div>
             <div className="keys">
                 <div className="numbers">
-                    <key Value={9} onClick={handleOperation} />
-                    <key Value={8} onClick={handleOperation} />
-                    <key Value={7} onClick={handleOperation} />
-                    <key Value={6} onClick={handleOperation} />
-                    <key Value={5} onClick={handleOperation} />
-                    <key Value={4} onClick={handleOperation} />
-                    <key Value={3} onClick={handleOperation} />
-                    <key Value={2} onClick={handleOperation} />
-                    <key Value={1} onClick={handleOperation} />
-                    <key Value={0} onClick={handleOperation} />
+                    <key Value={9} onClick={handleOperator} />
+                    <key Value={8} onClick={handleOperator} />
+                    <key Value={7} onClick={handleOperator} />
+                    <key Value={6} onClick={handleOperator} />
+                    <key Value={5} onClick={handleOperator} />
+                    <key Value={4} onClick={handleOperator} />
+                    <key Value={3} onClick={handleOperator} />
+                    <key Value={2} onClick={handleOperator} />
+                    <key Value={1} onClick={handleOperator} />
+                    <key Value={0} onClick={handleOperator} />
                 </div>
                 <div className="operators-and-values">
                     <key value={"+"} onClick={handleOperator} />
